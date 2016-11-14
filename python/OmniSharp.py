@@ -225,7 +225,6 @@ def quickfixes_from_js(js, key):
     return [];
 
 def find_local_file(remote):
-    print 'replacing %s' % remote
     if vim.eval("exists('g:omnisharp_path_prefix')") == '1':
         prefix = vim.eval('g:omnisharp_path_prefix')
         return remote.replace('\\','/').replace(prefix,'')
