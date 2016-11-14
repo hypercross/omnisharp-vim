@@ -235,6 +235,18 @@ function! OmniSharp#CodeCheck() abort
   return get(b:, 'codecheck', [])
 endfunction
 
+function! OmniSharp#CodeCheckQF() abort
+  let qf_taglist = pyeval('codeCheck()')
+
+  " Place the tags in the quickfix window, if possible
+  if len(qf_taglist) > 0
+    call setqflist(qf_taglist)
+    botright cwindow 4
+  else
+    echo 'No error found'
+  endif
+endfunction
+
 " Jump to first scratch window visible in current tab, or create it.
 " This is useful to accumulate results from successive operations.
 " Global function that can be called from other scripts.

@@ -14,12 +14,13 @@ formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 hdlr.setFormatter(formatter)
 
 
-def getResponse(endPoint, additional_parameters=None, timeout=None):
+def getResponse(endPoint, additional_parameters=None, timeout=None, defaultArgs=True):
     parameters = {}
-    parameters['line'] = vim.eval('line(".")')
-    parameters['column'] = vim.eval('col(".")')
-    parameters['buffer'] = '\r\n'.join(vim.eval("getline(1,'$')")[:])
-    parameters['filename'] = vim.eval('OmniSharp#GetBufferName()')
+    if defaultArgs:
+        parameters['line'] = vim.eval('line(".")')
+        parameters['column'] = vim.eval('col(".")')
+        parameters['buffer'] = '\r\n'.join(vim.eval("getline(1,'$')")[:])
+        parameters['filename'] = vim.eval('OmniSharp#GetBufferName()')
     if additional_parameters != None:
         parameters.update(additional_parameters)
 
@@ -127,7 +128,8 @@ def getCodeIssues():
     return get_quickfix_list(js, 'QuickFixes')
 
 def codeCheck():
-    js = getResponse('/codecheck')
+    getResponse('/updatebuffer')
+    js = getResponse('/codecheck', defaultArgs=False)
     return get_quickfix_list(js, 'QuickFixes')
 
 def typeLookup(ret):
