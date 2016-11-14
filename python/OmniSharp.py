@@ -72,7 +72,8 @@ def gotoDefinition():
     if(js != ''):
         definition = json.loads(js)
         if(definition['FileName'] != None):
-            openFile(definition['FileName'].replace("'","''"), definition['Line'], definition['Column'])
+            destination = find_local_file(definition['FileName'])
+            openFile(destination.replace("'","''"), definition['Line'], definition['Column'])
         else:
             print "Not found"
 
@@ -223,6 +224,13 @@ def quickfixes_from_js(js, key):
         return quickfixes_from_response(js[key])
     return [];
 
+def find_local_file(remote):
+    print 'replacing %s' % remote
+    if vim.eval("exists('g:omnisharp_path_prefix')") == '1':
+        prefix = vim.eval('g:omnisharp_path_prefix')
+        return remote.replace('\\','/').replace(prefix,'')
+    return remote
+
 def quickfixes_from_response(response):
     items = []
     for quickfix in response:
@@ -233,7 +241,7 @@ def quickfixes_from_response(response):
             text = quickfix['Message']
 
         item = {
-            'filename': quickfix['FileName'],
+            'filename': find_local_file(quickfix['FileName']),
             'text': text,
             'lnum': quickfix['Line'],
             'col': quickfix['Column'],
