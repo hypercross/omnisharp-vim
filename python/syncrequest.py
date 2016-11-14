@@ -32,7 +32,10 @@ def get_response(endPoint, params=None, timeout=None):
         vim.command("let g:serverSeenRunning = 0")
         return None
 
-    json_string = response.read()
+    try:
+        json_string = response.read()
+    except Exception:
+        return {}
     if json_string.startswith("\xef\xbb\xbf"):  # Drop UTF-8 BOM
         json_string = json_string[3:]
     return  json.loads(json_string)
