@@ -27,7 +27,7 @@ def get_response_async(endPoint, callback, params=None, timeout=None):
     parameters['line'] = vim.eval('line(".")')
     parameters['column'] = vim.eval('col(".")')
     parameters['buffer'] = '\r\n'.join(vim.eval("getline(1,'$')")[:])
-    parameters['filename'] = vim.current.buffer.name
+    parameters['filename'] = vim.eval('OmniSharp#GetBufferName()')
 
     if params is not None:
         parameters.update(params)

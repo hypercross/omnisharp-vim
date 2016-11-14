@@ -635,6 +635,13 @@ function! OmniSharp#ExpandAutoCompleteSnippet()
   endif
 endfunction
 
+function! OmniSharp#GetBufferName() abort
+    if !exists('g:omnisharp_path_prefix')
+        return expand('%:p')
+    endif
+    return g:omnisharp_path_prefix . expand('%')
+endfunction
+
 function! s:find_solution_files() abort
   "get the path for the current buffer
   let dir = expand('%:p:h')
