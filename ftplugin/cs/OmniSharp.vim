@@ -20,6 +20,8 @@ augroup plugin-OmniSharp
   \|    call OmniSharp#UpdateBuffer()
   \|  endif
 
+  autocmd BufWritePre <buffer> python getResponse('/updatebuffer')
+
   autocmd CompleteDone <buffer> call OmniSharp#ExpandAutoCompleteSnippet()
 
 augroup END
