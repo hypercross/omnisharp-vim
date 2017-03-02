@@ -1,5 +1,6 @@
 import vim, urllib2, urllib, urlparse, logging, json, os, os.path, cgi, types, threading
 import asyncrequest
+import requests;
 
 logger = logging.getLogger('omnisharp')
 logger.setLevel(logging.WARNING)
@@ -34,10 +35,11 @@ def getResponse(endPoint, additional_parameters=None, timeout=None, defaultArgs=
 
     target = urlparse.urljoin(host, endPoint)
 
-    proxy = urllib2.ProxyHandler({})
-    opener = urllib2.build_opener(proxy)
-    req = urllib2.Request(target)
-    req.add_header('Content-Type', 'application/json')
+    # proxy = urllib2.ProxyHandler({})
+    # opener = urllib2.build_opener(proxy)
+    # req = urllib2.Request(target)
+    # req.add_header('Content-Type', 'application/json')
+    return requests.post(target, json.dumps(parameters)).text
 
     try:
         response = opener.open(req, json.dumps(parameters), timeout)
