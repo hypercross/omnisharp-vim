@@ -42,8 +42,9 @@ function! OmniSharp#FindUsages() abort
 
   " Place the tags in the quickfix window, if possible
   if len(qf_taglist) > 0
-    call setqflist(qf_taglist)
-    botright cwindow 4
+    "call setqflist(qf_taglist)
+    call setloclist(winnr(), qf_taglist)
+    botright lwindow 4
   else
     echo 'No usages found'
   endif
