@@ -129,7 +129,7 @@ endfunction
 function! OmniSharp#JumpToLocation(filename, line, column) abort
   if a:filename !=# ''
     if a:filename !=# bufname('%')
-      exec 'e! ' . fnameescape(a:filename)
+      exec 'e ' . fnameescape(a:filename)
     endif
     "row is 1 based, column is 0 based
     call cursor(a:line, a:column)
@@ -255,7 +255,7 @@ function! s:GoScratch() abort
   if bufwinnr('__OmniSharpScratch__') == -1
     "botright new __OmniSharpScratch__
     botright split __OmniSharpScratch__
-    setlocal buftype=nofile bufhidden=hide noswapfile nolist nobuflisted nospell
+    setlocal buftype=nofile bufhidden=hide noswapfile nolist nobuflisted nospell previewwindow
   endif
   for i in range(1, winnr('$'))
     execute i . 'wincmd w'
